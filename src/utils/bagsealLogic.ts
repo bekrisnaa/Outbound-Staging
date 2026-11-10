@@ -115,7 +115,7 @@ export function formatSheetRows(
     item.staging || fallbackStaging,
     item.barcode,
     String(item.qty),
-    item.categoryTag || 'Unassigned',
+    item.categoryTag || 'Reguler / Standar',
     userEmail,
   ]);
 }

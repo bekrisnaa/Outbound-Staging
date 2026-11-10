@@ -110,12 +110,12 @@ export const RealtimeCounters: React.FC<Props> = ({ items, currentTrip, currentS
             </div>
           </div>
 
-          <div className={`border rounded-lg p-1.5 ${breakdown.Unassigned > 0 ? 'bg-rose-50/80 border-rose-200 text-rose-700' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
+          <div className="border border-slate-200 bg-slate-50/80 rounded-lg p-1.5 text-slate-700">
             <div className="flex items-center justify-center gap-1 text-[11px] font-medium">
-              <AlertCircle className="w-3 h-3" />
-              <span>Untag</span>
+              <Package className="w-3 h-3 text-slate-400" />
+              <span>Reguler</span>
             </div>
-            <div className="text-sm font-bold mt-0.5 tabular-nums">
+            <div className="text-sm font-bold mt-0.5 tabular-nums text-slate-900">
               {breakdown.Unassigned}
             </div>
           </div>

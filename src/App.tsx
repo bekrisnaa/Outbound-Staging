@@ -116,8 +116,8 @@ export default function App() {
     [currentTrip, currentStaging]
   );
 
-  // Assign Category Tag (Document, HV, VIP, BP)
-  const handleAssignCategoryTag = useCallback((itemId: string, tag: CategoryTag, updatedQty?: number) => {
+  // Assign Category Tag (Document, HV, VIP, BP, or undefined for Reguler)
+  const handleAssignCategoryTag = useCallback((itemId: string, tag?: CategoryTag, updatedQty?: number) => {
     setItems((prev) =>
       prev.map((item) =>
         item.id === itemId

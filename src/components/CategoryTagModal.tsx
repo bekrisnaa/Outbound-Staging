@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, ShieldAlert, Star, Layers, X, Check, Hash } from 'lucide-react';
+import { FileText, ShieldAlert, Star, Layers, X, Check, Hash, Package } from 'lucide-react';
 import { BagsealItem, CategoryTag, CATEGORY_TAGS } from '../types';
 import { playTagAssignedChime } from '../utils/audio';
 
@@ -7,7 +7,7 @@ interface Props {
   item: BagsealItem | null;
   isOpen: boolean;
   onClose: () => void;
-  onSelectTag: (itemId: string, tag: CategoryTag, updatedQty?: number) => void;
+  onSelectTag: (itemId: string, tag?: CategoryTag, updatedQty?: number) => void;
   onUpdateQty: (itemId: string, qty: number) => void;
   onDeleteItem: (itemId: string) => void;
 }
@@ -22,7 +22,7 @@ export const CategoryTagModal: React.FC<Props> = ({
 }) => {
   if (!isOpen || !item) return null;
 
-  const handleSelect = (tag: CategoryTag) => {
+  const handleSelect = (tag?: CategoryTag) => {
     playTagAssignedChime();
     onSelectTag(item.id, tag);
     onClose();
@@ -122,11 +122,48 @@ export const CategoryTagModal: React.FC<Props> = ({
           </div>
         </div>
 
-        {/* 4 Strict Category Tag Options */}
+        {/* 4 Strict Category Tag Options + Reguler (No Tag) */}
         <div className="p-4 sm:p-5 space-y-2.5 overflow-y-auto">
           <p className="text-xs font-medium text-slate-600 mb-1">
-            Choose a required category tag for this bagseal:
+            Pilih tag kategori (opsional, default: Reguler / Standar):
           </p>
+
+          {/* Option: Reguler / Standar */}
+          <button
+            type="button"
+            onClick={() => handleSelect(undefined)}
+            className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between group ${
+              !item.categoryTag
+                ? 'border-slate-800 ring-2 ring-slate-800 bg-slate-100 font-bold text-slate-900'
+                : 'border-slate-200 bg-slate-50/50 hover:bg-slate-100/60 text-slate-700'
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-white shadow-xs border border-slate-200">
+                <Package className="w-5 h-5 text-slate-600" />
+              </div>
+              <div>
+                <div className="text-sm font-bold flex items-center gap-2">
+                  <span>Reguler / Standar</span>
+                  {!item.categoryTag && (
+                    <span className="text-[10px] bg-slate-900 text-white px-2 py-0.5 rounded-full font-semibold">
+                      Aktif (Tanpa Tag)
+                    </span>
+                  )}
+                </div>
+                <div className="text-xs text-slate-500 mt-0.5">
+                  Paket biasa tanpa penanganan khusus (opsional)
+                </div>
+              </div>
+            </div>
+            {!item.categoryTag ? (
+              <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center">
+                <Check className="w-4 h-4" />
+              </div>
+            ) : (
+              <div className="w-6 h-6 rounded-full border border-slate-300 group-hover:border-slate-500 flex items-center justify-center bg-white" />
+            )}
+          </button>
 
           {CATEGORY_TAGS.map((tag) => {
             const detail = tagDetails[tag];

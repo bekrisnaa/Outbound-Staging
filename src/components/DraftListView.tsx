@@ -82,9 +82,8 @@ export const DraftListView: React.FC<Props> = ({
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 animate-pulse">
-            <Tag className="w-3 h-3" />
-            Pilih Tag
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+            Reguler
           </span>
         );
     }
@@ -102,7 +101,7 @@ export const DraftListView: React.FC<Props> = ({
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            Kolom Qty dapat diedit langsung pada setiap baris bagseal di bawah
+            Tag kategori bersifat opsional (default: Reguler/Standar). Dapat langsung disinkronkan kapan saja.
           </p>
         </div>
 
@@ -325,13 +324,13 @@ export const DraftListView: React.FC<Props> = ({
                       <button
                         key={tag}
                         type="button"
-                        onClick={() => onQuickTag(item.id, tag)}
+                        onClick={() => onQuickTag(item.id, (item.categoryTag === tag ? undefined : tag) as any)}
                         className={`text-[10px] font-bold px-2 py-1 rounded-md transition-colors border ${
                           item.categoryTag === tag
                             ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
                             : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
                         }`}
-                        title={`Tag sebagai ${tag}`}
+                        title={item.categoryTag === tag ? `Hapus tag ${tag} (Kembali ke Reguler)` : `Tag sebagai ${tag}`}
                       >
                         {tag === 'Document' ? 'Doc' : tag}
                       </button>

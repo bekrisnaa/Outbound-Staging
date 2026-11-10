@@ -4,7 +4,6 @@ import {
   CameraOff,
   Flashlight,
   RefreshCw,
-  Zap,
   CheckCircle2,
   AlertTriangle,
   Keyboard,
@@ -675,40 +674,6 @@ export const BarcodeScanner: React.FC<Props> = ({
             </div>
           </form>
         )}
-
-        {/* Quick Testing Barcode Presets with prefilled Qty */}
-        <div>
-          <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-600 mb-1.5">
-            <Zap className="w-3 h-3 text-amber-500" />
-            <span>Preset Cepat (Uji Scan Otomatis):</span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-            {[
-              { code: 'BS-SKMJ-1024-Q15', label: 'SKMJ Pack', qty: 15 },
-              { code: 'DOC-SKMJ-8021-Q8', label: 'Docs Express', qty: 8 },
-              { code: 'HV-VAL-9921-Q5', label: 'High Value', qty: 5 },
-              { code: 'BP-BULK-092-Q30', label: 'Bulk Freight', qty: 30 },
-            ].map((sample) => (
-              <button
-                key={sample.code}
-                type="button"
-                onClick={() => handleScannedCode(sample.code, sample.qty)}
-                className="text-left p-2 rounded-lg bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 active:bg-blue-100 transition-all shadow-2xs group"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[11px] font-bold text-slate-800 group-hover:text-blue-700 truncate">
-                    {sample.code}
-                  </span>
-                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded-sm border border-emerald-200">
-                    Qty: {sample.qty}
-                  </span>
-                </div>
-                <div className="text-[10px] text-slate-500 mt-0.5 truncate">{sample.label}</div>
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );
