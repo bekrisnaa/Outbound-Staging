@@ -1,0 +1,6 @@
+{
+  "name": "LogiScan - Outbound Staging & Bagseal Barcode Scanner",
+  "description": "Mobile-optimized logistics barcode scanner for Outbound Staging and Trips with auto-qty parsing, categorization tagging, local draft persistence, and Google Sheets sync.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
