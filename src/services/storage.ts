@@ -105,3 +105,55 @@ export function saveStagings(stagings: StagingItem[]): void {
     console.error('Failed to save stagings to storage', err);
   }
 }
+
+const HISTORY_STORAGE_KEY = 'logiscan_trip_history_v1';
+
+/**
+ * Loads finalized trip history from LocalStorage.
+ */
+export function loadTripHistory(): import('../types').TripHistoryRecord[] {
+  try {
+    const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load trip history from storage', err);
+  }
+  return [];
+}
+
+/**
+ * Saves all trip history records to LocalStorage.
+ */
+export function saveTripHistory(records: import('../types').TripHistoryRecord[]): void {
+  try {
+    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(records));
+  } catch (err) {
+    console.error('Failed to save trip history to storage', err);
+  }
+}
+
+/**
+ * Appends a new finalized trip record to the top of history.
+ */
+export function appendTripHistory(record: import('../types').TripHistoryRecord): import('../types').TripHistoryRecord[] {
+  const current = loadTripHistory();
+  const updated = [record, ...current.filter((r) => r.id !== record.id)];
+  saveTripHistory(updated);
+  return updated;
+}
+
+/**
+ * Deletes a single trip history record by id.
+ */
+export function deleteTripHistory(id: string): import('../types').TripHistoryRecord[] {
+  const current = loadTripHistory();
+  const updated = current.filter((r) => r.id !== id);
+  saveTripHistory(updated);
+  return updated;
+}
+

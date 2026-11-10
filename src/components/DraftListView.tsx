@@ -14,8 +14,10 @@ import {
   Hash,
   Minus,
   Plus,
+  QrCode,
 } from 'lucide-react';
 import { BagsealItem, CategoryTag } from '../types';
+import { BarcodeDisplay } from './BarcodeDisplay';
 
 interface Props {
   items: BagsealItem[];
@@ -36,6 +38,7 @@ export const DraftListView: React.FC<Props> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTag, setFilterTag] = useState<string>('ALL');
+  const [showBarcodes, setShowBarcodes] = useState(false);
 
   const filteredItems = items.filter((item) => {
     const matchesSearch =
@@ -106,15 +109,31 @@ export const DraftListView: React.FC<Props> = ({
         </div>
 
         {items.length > 0 && (
-          <button
-            type="button"
-            onClick={onClearAll}
-            className="text-xs font-semibold text-rose-600 hover:text-rose-800 px-2.5 py-1 rounded-lg border border-rose-200 bg-rose-50/50 hover:bg-rose-100 transition-colors flex items-center gap-1"
-            title="Clear all scanned items in draft"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-            Clear Draft
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowBarcodes(!showBarcodes)}
+              className={`text-xs font-semibold px-2.5 py-1 rounded-lg border transition-colors flex items-center gap-1.5 cursor-pointer ${
+                showBarcodes
+                  ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+              }`}
+              title="Tampilkan barcode scannable langsung di draft"
+            >
+              <QrCode className="w-3.5 h-3.5" />
+              <span>{showBarcodes ? 'Barcode: On' : 'Barcode: Off'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={onClearAll}
+              className="text-xs font-semibold text-rose-600 hover:text-rose-800 px-2.5 py-1 rounded-lg border border-rose-200 bg-rose-50/50 hover:bg-rose-100 transition-colors flex items-center gap-1 cursor-pointer"
+              title="Clear all scanned items in draft"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              Clear Draft
+            </button>
+          </div>
         )}
       </div>
 
@@ -358,6 +377,19 @@ export const DraftListView: React.FC<Props> = ({
                     </button>
                   </div>
                 </div>
+
+                {/* Visual Scannable Barcode when enabled */}
+                {showBarcodes && (
+                  <div className="mt-2.5 pt-2 border-t border-slate-100 flex flex-col items-center">
+                    <BarcodeDisplay
+                      value={item.barcode}
+                      height={52}
+                      width={2.1}
+                      allowZoom={true}
+                      className="w-full bg-white py-1.5"
+                    />
+                  </div>
+                )}
               </div>
             );
           })

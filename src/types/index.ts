@@ -31,6 +31,27 @@ export interface AppDraftState {
   lastSavedAt: string;
 }
 
+export interface StagingSummary {
+  stagingCode: string;
+  stagingName?: string;
+  totalBagseals: number;
+  totalQty: number;
+  items: BagsealItem[];
+}
+
+export interface TripHistoryRecord {
+  id: string;
+  batchTitle: string; // e.g. "Trip 1-10112026"
+  trip: TripId;
+  dateCode: string; // "10112026" (DDMMYYYY)
+  finalizedAt: string; // ISO string
+  totalBagseals: number;
+  totalQty: number;
+  stagings: StagingSummary[]; // Rekap per staging: SKMJ, BAGSEAL 30, QTY 1100
+  rawItems: BagsealItem[];
+  syncedToSheets?: boolean;
+}
+
 export interface GoogleSheetsSyncResult {
   success: boolean;
   spreadsheetId?: string;

@@ -2,6 +2,7 @@ import React from 'react';
 import { FileText, ShieldAlert, Star, Layers, X, Check, Hash, Package } from 'lucide-react';
 import { BagsealItem, CategoryTag, CATEGORY_TAGS } from '../types';
 import { playTagAssignedChime } from '../utils/audio';
+import { BarcodeDisplay } from './BarcodeDisplay';
 
 interface Props {
   item: BagsealItem | null;
@@ -91,6 +92,12 @@ export const CategoryTagModal: React.FC<Props> = ({
           >
             <X className="w-5 h-5" />
           </button>
+        </div>
+
+        {/* Visual Scannable Barcode */}
+        <div className="px-5 pt-3 pb-1 flex flex-col items-center bg-white border-b border-slate-100">
+          <BarcodeDisplay value={item.barcode} height={52} width={2.1} allowZoom={true} className="w-full" />
+          <span className="text-[10px] text-slate-400 mt-1">Dapat discan langsung dari layar HP</span>
         </div>
 
         {/* Quantity Quick Editor */}

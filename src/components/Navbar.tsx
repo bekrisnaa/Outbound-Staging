@@ -17,6 +17,9 @@ interface Props {
   totalBagseals: number;
   totalQty: number;
   user: User | null;
+  activeView: 'scan' | 'history';
+  historyCount: number;
+  onViewChange: (view: 'scan' | 'history') => void;
   onOpenSync: () => void;
   onOpenStagings: () => void;
 }
@@ -27,6 +30,9 @@ export const Navbar: React.FC<Props> = ({
   totalBagseals,
   totalQty,
   user,
+  activeView,
+  historyCount,
+  onViewChange,
   onOpenSync,
   onOpenStagings,
 }) => {
@@ -60,6 +66,43 @@ export const Navbar: React.FC<Props> = ({
           </div>
         </div>
 
+        {/* View Switcher Tabs (Scan vs History) */}
+        <div className="flex items-center bg-slate-800/90 p-0.5 rounded-xl border border-slate-700">
+          <button
+            type="button"
+            onClick={() => onViewChange('scan')}
+            className={`px-2.5 py-1.2 sm:px-3 sm:py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+              activeView === 'scan'
+                ? 'bg-blue-600 text-white shadow-xs'
+                : 'text-slate-300 hover:text-white hover:bg-slate-700/60'
+            }`}
+          >
+            <span>Scan</span>
+            {totalBagseals > 0 && (
+              <span className="px-1.5 py-0.2 rounded-full bg-slate-900/60 text-white text-[10px] font-mono">
+                {totalBagseals}
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onViewChange('history')}
+            className={`px-2.5 py-1.2 sm:px-3 sm:py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+              activeView === 'history'
+                ? 'bg-indigo-600 text-white shadow-xs'
+                : 'text-slate-300 hover:text-white hover:bg-slate-700/60'
+            }`}
+          >
+            <span>Riwayat</span>
+            {historyCount > 0 && (
+              <span className="px-1.5 py-0.2 rounded-full bg-indigo-950/80 text-indigo-200 text-[10px] font-mono border border-indigo-400/30">
+                {historyCount}
+              </span>
+            )}
+          </button>
+        </div>
+
         {/* Action Controls */}
         <div className="flex items-center gap-2">
           {/* Staging Manager Button */}
@@ -74,21 +117,16 @@ export const Navbar: React.FC<Props> = ({
             <span className="hidden md:inline">Stagings</span>
           </button>
 
-          {/* Sync to Google Sheets Button with Draft Count */}
+          {/* Sync to Google Sheets Button (Optional export) */}
           <button
             type="button"
             onClick={onOpenSync}
-            className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-extrabold text-xs flex items-center gap-2 shadow-md shadow-emerald-600/25 transition-all"
+            className="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-slate-200 hover:text-white font-medium text-xs flex items-center gap-1.5 border border-slate-700 transition-all cursor-pointer"
             aria-label="Open Google Sheets Sync dialog"
+            title="Sync / Export ke Google Sheets"
           >
-            <FileSpreadsheet className="w-4 h-4" />
-            <span className="hidden sm:inline">Sync to Sheets</span>
-            <span className="sm:hidden">Sync</span>
-            {totalBagseals > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full bg-slate-900/60 text-emerald-200 text-[11px] font-bold tabular-nums">
-                {totalBagseals} ({totalQty} Qty)
-              </span>
-            )}
+            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="hidden sm:inline">Sheets</span>
           </button>
 
           {/* Google User Avatar / Sign In */}
